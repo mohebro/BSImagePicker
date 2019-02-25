@@ -29,7 +29,7 @@ The photo cell.
 final public class PhotoCell: UICollectionViewCell {
     static let cellIdentifier = "photoCellIdentifier"
     
-    let imageView: UIImageView = UIImageView(frame: .zero)
+    public let imageView: UIImageView = UIImageView(frame: .zero)
 
     private let selectionOverlayView: UIView = UIView(frame: .zero)
     private let selectionView: SelectionView = SelectionView(frame: .zero)
@@ -54,7 +54,7 @@ final public class PhotoCell: UICollectionViewCell {
         }
     }
     
-    var photoSelected: Bool = false {
+    public var photoSelected: Bool = false {
         didSet {
             self.updateAccessibilityLabel(photoSelected)
             let hasChanged = photoSelected != oldValue

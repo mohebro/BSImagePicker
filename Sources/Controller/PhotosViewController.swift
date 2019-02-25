@@ -429,20 +429,60 @@ extension PhotosViewController: PHPhotoLibraryChangeObserver {
                 if photosChanges.hasIncrementalChanges && (removedCount > 0 || insertedCount > 0 || changedCount > 0) {
                     // Update fetch result
                     photosDataSource.fetchResult = photosChanges.fetchResultAfterChanges as! PHFetchResult<PHAsset>
+
+                    var removedPaths: [IndexPath]?
+                    var insertedPaths: [IndexPath]?
+                    var changedPaths: [IndexPath]?
+                    if let removed = photosChanges.removedIndexes {
+                        removedPaths = removed.bs_indexPathsForSection(1)
+                    }
+                    if let inserted = photosChanges.insertedIndexes {
+                        insertedPaths = inserted.bs_indexPathsForSection(1)
+                    }
+                    if let changed = photosChanges.changedIndexes {
+                        changedPaths = changed.bs_indexPathsForSection(1)
+                    }
+                    var shouldReload = false
+                    if changedPaths != nil && removedPaths != nil{
+                        for changedPath in changedPaths!{
+                            
+                            if removedPaths!.contains(changedPath){
+                                shouldReload = true
+                                break
+                            }
+                        }
+                        
+                    }
                     
-                    collectionView.performBatchUpdates({
-                        if let removed = photosChanges.removedIndexes {
-                            collectionView.deleteItems(at: removed.bs_indexPathsForSection(1))
-                        }
-                        
-                        if let inserted = photosChanges.insertedIndexes {
-                            collectionView.insertItems(at: inserted.bs_indexPathsForSection(1))
-                        }
-                        
-                        if let changed = photosChanges.changedIndexes {
-                            collectionView.reloadItems(at: changed.bs_indexPathsForSection(1))
-                        }
-                    })
+                    if (removedPaths?.last?.item ?? 0) >= photosDataSource.fetchResult.count {
+                        shouldReload = true
+                    }
+                    
+                    if shouldReload{
+                        self.collectionView.reloadData()
+                    }else{
+                        collectionView.performBatchUpdates({
+                            if let removed = photosChanges.removedIndexes {
+                                collectionView.deleteItems(at: removed.bs_indexPathsForSection(1))
+                            }
+                            
+                            if let inserted = photosChanges.insertedIndexes {
+                                collectionView.insertItems(at: inserted.bs_indexPathsForSection(1))
+                            }
+                            
+                            if let changed = photosChanges.changedIndexes {
+                                collectionView.reloadItems(at: changed.bs_indexPathsForSection(1))
+                            }
+                            
+                            if (photosChanges.hasMoves) {
+                                photosChanges.enumerateMoves() { fromIndex, toIndex in
+                                    let fromIndexPath = IndexPath(item: fromIndex, section: 1)
+                                    let toIndexPath = IndexPath(item: toIndex, section: 1)
+                                    self.collectionView.moveItem(at: fromIndexPath, to: toIndexPath)
+                                }
+                            }
+                        })
+                    }
                     
                     // Changes is causing issues right now...fix me later
                     // Example of issue:

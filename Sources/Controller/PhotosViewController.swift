@@ -131,7 +131,7 @@ final class PhotosViewController : UICollectionViewController {
         cancelClosure?(assetStore.assets)
     }
     
-    @objc func doneButtonPressed(_ sender: UIBarButtonItem) {
+    @objc func doneButtonPressed(_ sender: UIBarButtonItem?) {
         dismiss(animated: true, completion: nil)
         finishClosure?(assetStore.assets)
     }

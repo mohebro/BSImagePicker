@@ -143,6 +143,10 @@ open class BSImagePickerViewController : UINavigationController {
             setViewControllers([photosViewController], animated: false)
         }
     }
+    
+    public func doneButtonPressed() {
+        photosViewController.doneButtonPressed(nil)
+    }
 }
 
 // MARK: ImagePickerSettings proxy

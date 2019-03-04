@@ -55,4 +55,31 @@ public extension UIViewController {
             self.present(imagePicker, animated: animated, completion: completion)
         }
     }
+    
+    /**
+     Initialize Presented Image Picker.
+     
+     - parameter imagePicker: a BSImagePickerViewController to present
+     - parameter animated: To animate the presentation or not
+     - parameter select: Closure to call when user selects an asset or nil
+     - parameter deselect: Closure to call when user deselects an asset or nil
+     - parameter cancel: Closure to call when user cancels or nil
+     - parameter finish: Closure to call when user finishes or nil
+     - parameter completion: presentation completed closure or nil
+     - parameter selectLimitReached: Closure to call when user reaches selection limit or nil
+     */
+    @objc func bs_initializePresentedImagePickerController(_ imagePicker: BSImagePickerViewController, animated: Bool, select: ((_ asset: PHAsset) -> Void)?, deselect: ((_ asset: PHAsset) -> Void)?, cancel: (([PHAsset]) -> Void)?, finish: (([PHAsset]) -> Void)?, completion: (() -> Void)?, selectLimitReached: ((Int) -> Void)? = nil) {
+        BSImagePickerViewController.authorize(fromViewController: self) { (authorized) -> Void in
+            // Make sure we are authorized before proceding
+            guard authorized == true else { return }
+            
+            // Set blocks
+            imagePicker.photosViewController.selectionClosure = select
+            imagePicker.photosViewController.deselectionClosure = deselect
+            imagePicker.photosViewController.cancelClosure = cancel
+            imagePicker.photosViewController.finishClosure = finish
+            imagePicker.photosViewController.selectLimitReachedClosure = selectLimitReached
+            
+        }
+    }
 }

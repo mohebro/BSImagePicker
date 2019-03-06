@@ -80,7 +80,16 @@ final public class PhotoCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        self.initView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.initView()
+//        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func initView() {
         // Setup views
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -91,7 +100,7 @@ final public class PhotoCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         contentView.addSubview(selectionOverlayView)
         contentView.addSubview(selectionView)
-
+        
         // Add constraints
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -106,11 +115,7 @@ final public class PhotoCell: UICollectionViewCell {
             selectionView.widthAnchor.constraint(equalToConstant: 25),
             selectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             selectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
-        ])
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+            ])
     }
     
     func updateAccessibilityLabel(_ selected: Bool) {

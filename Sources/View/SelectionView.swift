@@ -43,7 +43,9 @@ Used as an overlay on selected cells
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        backgroundColor = UIColor.clear
+//        fatalError("init(coder:) has not been implemented")
     }
     
     override func draw(_ rect: CGRect) {

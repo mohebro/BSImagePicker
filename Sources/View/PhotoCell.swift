@@ -36,7 +36,7 @@ final public class PhotoCell: UICollectionViewCell {
     private let selectionView: SelectionView = SelectionView(frame: .zero)
     
     weak var asset: PHAsset?
-    var settings: BSImagePickerSettings {
+    public var settings: BSImagePickerSettings {
         get {
             return selectionView.settings
         }
@@ -45,7 +45,7 @@ final public class PhotoCell: UICollectionViewCell {
         }
     }
     
-    var selectionString: String {
+    public var selectionString: String {
         get {
             return selectionView.selectionString
         }

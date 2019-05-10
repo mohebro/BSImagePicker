@@ -57,6 +57,10 @@ final class AlbumCell: UITableViewCell {
         contentView.addSubview(imageContainerView)
         albumTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(albumTitleLabel)
+        
+        for imageView in [firstImageView, secondImageView, thirdImageView] {
+            imageView.contentMode = .scaleAspectFit
+        }
 
         NSLayoutConstraint.activate([
             imageContainerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),

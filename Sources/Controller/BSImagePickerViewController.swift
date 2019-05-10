@@ -55,13 +55,19 @@ open class BSImagePickerViewController : UINavigationController {
     @objc open lazy var fetchResults: [PHFetchResult] = { () -> [PHFetchResult<PHAssetCollection>] in
         let fetchOptions = PHFetchOptions()
         
+        fetchOptions.sortDescriptors = [
+            NSSortDescriptor(key: "creationDate", ascending: false)
+        ]
         // Camera roll fetch result
         let cameraRollResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: fetchOptions)
+        
+        // Favorites
+        let favResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: fetchOptions)
         
         // Albums fetch result
         let albumResult = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
         
-        return [cameraRollResult, albumResult]
+        return [cameraRollResult, favResult, albumResult]
     }()
     
     @objc var albumTitleView: UIButton = {

@@ -27,7 +27,7 @@ import Photos
 The photo cell.
 */
 //Test
-open class PhotoCell: UICollectionViewCell {
+open public class PhotoCell: UICollectionViewCell {
     static let cellIdentifier = "photoCellIdentifier"
     
     public let imageView: UIImageView = UIImageView(frame: .zero)

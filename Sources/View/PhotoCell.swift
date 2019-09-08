@@ -27,7 +27,7 @@ import Photos
 The photo cell.
 */
 //Test
-final public class PhotoCell: UICollectionViewCell {
+open class PhotoCell: UICollectionViewCell {
     static let cellIdentifier = "photoCellIdentifier"
     
     public let imageView: UIImageView = UIImageView(frame: .zero)
@@ -83,7 +83,7 @@ final public class PhotoCell: UICollectionViewCell {
         self.initView()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.initView()
 //        fatalError("init(coder:) has not been implemented")
